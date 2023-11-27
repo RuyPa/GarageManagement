@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <title>Search Accessory</title>
+</head>
+<body>
+
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="text-center">Search Accessory</h3>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Enter keyword for search" aria-label="Enter keyword for search" aria-describedby="button-search">
+              <div class="input-group-append">
+                <button class="btn btn-outline-primary" type="button" id="button-search">Search</button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Fake data for accessory -->
+          <div class="result-container">
+            <h4>Search Results:</h4>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <strong>Id:</strong> 1
+                <strong>Name:</strong> Lốp xe Mersedes
+                <br>
+                <strong>Price:</strong> 1000000
+                <br>
+                <strong>Description:</strong> High-performance all-season tire.
+                <div class="float-right">
+                  <button type="button" class="btn btn-warning btn-sm">Update</button>
+                  <button type="button" class="btn btn-danger btn-sm ml-2">Delete</button>
+                </div>
+              </li>
+
+              <li class="list-group-item">
+                <strong>Id:</strong> 2
+                <strong>Name:</strong> Lốp xe ben
+                <br>
+                <strong>Price:</strong> 2000000
+                <br>
+                <strong>Description:</strong> Eco-friendly and durable tire.
+                <div class="float-right">
+                  <button type="button" class="btn btn-warning btn-sm">Update</button>
+                  <button type="button" class="btn btn-danger btn-sm ml-2">Delete</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
