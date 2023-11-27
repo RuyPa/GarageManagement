@@ -11,4 +11,5 @@ public interface AccessoryService {
     List<Accessory> searchAccessoryByKey(String key);
     boolean updateAccessory(Accessory accessory);
     boolean deleteAccessory(int id);
+    Accessory getAccessoryById(int id);
 }
