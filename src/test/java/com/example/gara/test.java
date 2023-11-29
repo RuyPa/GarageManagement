@@ -1,9 +1,12 @@
 package com.example.gara;
 
 import com.example.gara.model.Accessory;
+import com.example.gara.repository.AcceessoryStatRepository;
 import com.example.gara.repository.AccessoryRepository;
 import com.example.gara.repository.ResultSetQuery;
+import com.example.gara.service.AccessoryStatService;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -18,6 +21,12 @@ import java.util.Random;
 public class test {
     @Autowired
     AccessoryRepository accessoryRepository;
+
+    @Autowired
+    AcceessoryStatRepository acceessoryStatRepository;
+
+    @Autowired
+    AccessoryStatService accessoryStatService;
 
     @Test
     public void thichtest(){
@@ -43,7 +52,7 @@ public class test {
 
 
 //        statistic
-//        List<ResultSetQuery> resultSetQueries = accessoryRepository.statistic("2022-10-01", "2022-11-01");
+//        List<ResultSetQuery> resultSetQueries = acceessoryStatRepository.statisticAccessory("2022-10-01", "2022-11-01");
 //        for (ResultSetQuery resultSetQuery : resultSetQueries){
 //            System.out.println(resultSetQuery.getName());
 //        }
@@ -62,9 +71,11 @@ public class test {
 //    }
 
 //        import bill detail
-        List<ResultSetQuery> resultSetQueries = accessoryRepository.importBillDetail(2);
-        for (ResultSetQuery resultSetQuery : resultSetQueries){
-            System.out.println(resultSetQuery.getDistributoradd());
-        }
+//        List<ResultSetQuery> resultSetQueries = accessoryRepository.importBillDetail(2);
+//        for (ResultSetQuery resultSetQuery : resultSetQueries){
+//            System.out.println(resultSetQuery.getDistributoradd());
+//        }
+
+
     }
 }

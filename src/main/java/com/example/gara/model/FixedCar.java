@@ -8,14 +8,14 @@ import java.util.List;
 
 @Getter
 @Setter
-public class FixecCar {
+public class FixedCar {
     private int id;
     private Date startTime;
     private Date endTime;
     private Car car;
     private List<UsedAccessory> usedAccessories;
 
-    public FixecCar(int id, Date startTime, Date endTime, Car car, List<UsedAccessory> usedAccessories) {
+    public FixedCar(int id, Date startTime, Date endTime, Car car, List<UsedAccessory> usedAccessories) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -23,6 +23,6 @@ public class FixecCar {
         this.usedAccessories = usedAccessories;
     }
 
-    public FixecCar() {
+    public FixedCar() {
     }
 }

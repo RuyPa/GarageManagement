@@ -3,6 +3,7 @@ package com.example.gara.controller;
 
 import com.example.gara.model.Accessory;
 import com.example.gara.service.AccessoryService;
+import com.example.gara.service.AccessoryStatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +18,12 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class AddController {
     final private AccessoryService accessoryService;
+    final private AccessoryStatService accessoryStatService;
 
 //    TODO: view
     @GetMapping("/addAccessoryView")
     public String addAccessoryView(){
+//        System.out.println(accessoryStatService.statisticAccessory("2022-10-10", "2022-12-12").size());
         return "AddAccessoryView";
     }
 
