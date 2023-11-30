@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Import Accessory</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>Delete Accessory</h2>
+    <form th:action="@{/importAccessory}" th:object="${accessory}" id="deleteForm">
+        <div class="form-group">
+            <label for="id">ID:</label>
+            <span th:text="${accessory.id}" class="form-control" id="id" name="id"></span>
+            <!-- Thêm trường ẩn để giữ giá trị id -->
+            <input type="hidden" th:field="*{id}" th:value="${accessory.id}" />
+        </div>
+
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <span th:text="${accessory.name}" class="form-control" id="name" name="name"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <span th:text="${accessory.price}" class="form-control" id="price" name="price"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="des">Description:</label>
+            <span th:text="${accessory.des}" class="form-control" id="des" name="des"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="des">Quantity:</label>
+            <input type="text" class="form-control" id="quantity" name="quantity" th:value="${quantity}" />
+        </div>
+
+        <button class="btn btn-success" onclick="showDeleteConfirmation()">Import</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!--<script>-->
+<!--    function showDeleteConfirmation() {-->
+<!--        var result = confirm("Do you want to delete the accessory?");-->
+<!--        if (result) {-->
+<!--            // Nếu chọn Yes, thì submit form-->
+<!--            document.getElementById("deleteForm").submit();-->
+<!--        } else {-->
+<!--            // Ngược lại, không làm gì cả-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
+</body>
+</html>

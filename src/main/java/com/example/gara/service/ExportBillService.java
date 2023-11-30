@@ -8,4 +8,5 @@ import java.util.List;
 @Service
 public interface ExportBillService {
     List<ExportBill> getBillOfUsedAccessory(int id, String startTime, String endTime);
+    ExportBill getExportBill(int usedId);
 }

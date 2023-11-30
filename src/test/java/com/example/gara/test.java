@@ -3,6 +3,7 @@ package com.example.gara;
 import com.example.gara.model.Accessory;
 import com.example.gara.repository.AcceessoryStatRepository;
 import com.example.gara.repository.AccessoryRepository;
+import com.example.gara.repository.ExportBillRepository;
 import com.example.gara.repository.ResultSetQuery;
 import com.example.gara.service.AccessoryStatService;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -23,13 +27,10 @@ public class test {
     AccessoryRepository accessoryRepository;
 
     @Autowired
-    AcceessoryStatRepository acceessoryStatRepository;
-
-    @Autowired
-    AccessoryStatService accessoryStatService;
+    ExportBillRepository exportBillRepository;
 
     @Test
-    public void thichtest(){
+    public void thichtest() throws ParseException {
 //        get by search
 //        System.out.println(accessoryRepository.searchAccessoryByKey("lop").size());
 
@@ -64,9 +65,9 @@ public class test {
 //        }
 
 //        billdetail
-//        List<ResultSetQuery> resultSetQueries = accessoryRepository.exportBill(2);
+//        List<ResultSetQuery> resultSetQueries = exportBillRepository.getExportBill(2);
 //        for (ResultSetQuery resultSetQuery : resultSetQueries){
-//            System.out.println(resultSetQuery.getBilldate().toString());
+//            System.out.println(resultSetQuery.getQuantity());
 //        }
 //    }
 
@@ -76,6 +77,14 @@ public class test {
 //            System.out.println(resultSetQuery.getDistributoradd());
 //        }
 
+        Date currentDateAsDate = new Date();
 
+        // Define the desired date format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        // Format the date
+        String formattedDate = dateFormat.format(currentDateAsDate);
+        System.out.println(formattedDate);
     }
+
 }

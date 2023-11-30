@@ -39,12 +39,12 @@
         <!-- Thêm các trường mới: quantity và price -->
         <td th:text="${accessoryStat.quantity}"></td>
         <td th:text="${accessoryStat.price}"></td>
-<!--        <td>-->
-<!--            &lt;!&ndash; Sửa đường dẫn của nút Edit &ndash;&gt;-->
-<!--            <a th:href="@{/updateAccessoryView/{id}(id=${accessory.id})}" class="btn btn-primary btn-block">Edit</a>-->
-<!--            &lt;!&ndash; Sửa đường dẫn của nút Delete &ndash;&gt;-->
+        <td>
+            <!-- Sửa đường dẫn của nút Edit -->
+            <a th:href="@{/usedDetailView/{id}(id=${accessoryStat.id})}" class="btn btn-primary btn-block">Used Detail</a>
+            <!-- Sửa đường dẫn của nút Delete -->
 <!--            <a th:href="@{/deleteAccessoryView/{id}(id=${accessory.id})}" class="btn btn-primary btn-block">Delete</a>-->
-<!--        </td>-->
+        </td>
     </tr>
     </tbody>
 </table>

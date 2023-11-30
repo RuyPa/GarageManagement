@@ -1,10 +1,14 @@
 package com.example.gara.repository;
 
+import com.example.gara.model.Accessory;
 import com.example.gara.model.ImportBill;
+import com.example.gara.model.ImportedAccessory;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -40,4 +44,14 @@ public interface ImportBillRepository extends JpaRepository<ImportBill, Integer>
             "            tblusedaccessory.id = :usedId" +
             "    )", nativeQuery = true)
     List<ResultSetQuery> getImportBill(@Param("usedId")int usedId);
+
+    @Modifying
+    @Query(value = "INSERT INTO tblimportedaccessory (id, date, quantity, price, accessory_id, importBill_id) " + "VALUES (:#{#importedAccessory.id}, :#{#importedAccessory.date}, :#{#importedAccessory.quantity}, :#{#importedAccessory.price}, :#{#importedAccessory.accessory.id}, :#{#importbill_id})", nativeQuery = true)
+    void insertImportedAccessory(@Param("importedAccessory")ImportedAccessory importedAccessory,
+                                @Param("importbill_id")int importbill_id);
+
+    @Modifying
+    @Query(value = "INSERT INTO tblimportbill (id, date, discount, employee_id, distributor_id) " + "VALUES (:#{#importbill.id}, :#{#importbill.date}, :#{#importbill.discount}, :#{#importbill.employee.id}, :#{#importbill.distributor.id})", nativeQuery = true)
+    void createImportBill(@Param("importbill")ImportBill importbill);
+
 }

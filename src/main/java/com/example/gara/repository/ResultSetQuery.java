@@ -19,4 +19,11 @@ public interface ResultSetQuery {
     String getDistributorname();
     Date getImportdate();
     Integer getDiscount();
+
+    Integer getUsedid();
+
+    Date getDob();
+    String getEmail();
+    String getPhonenumber();
+    String getAddress();
 }

@@ -16,7 +16,8 @@ public interface ExportBillRepository extends JpaRepository<ExportBill, Integer>
             "    tblcar.name AS 'carname',\n" +
             "    tblaccessory.name AS 'accessname',\n" +
             "    tblusedaccessory.price,\n" +
-            "    tblusedaccessory.quantity\n" +
+            "    tblusedaccessory.quantity,\n" +
+            "    tblusedaccessory.id as usedid\n" +
             "FROM \n" +
             "    tblusedaccessory\n" +
             "    LEFT JOIN tblaccessory ON tblusedaccessory.accessory_id = tblaccessory.id\n" +
@@ -24,14 +25,15 @@ public interface ExportBillRepository extends JpaRepository<ExportBill, Integer>
             "    LEFT JOIN tblcar ON tblfixedCar.car_id = tblcar.id\n" +
             "    LEFT JOIN tblmember ON tblcar.client_id = tblmember.id\n" +
             "WHERE \n" +
-            "    tblaccessory.id = :id\n" +
-            "    AND tblusedaccessory.date BETWEEN :startDay AND :endDay\n" +
+            "    tblaccessory.id = 2\n" +
+            "    AND tblusedaccessory.date BETWEEN '2022-10-01' AND '2022-11-01'\n" +
             "GROUP BY \n" +
             "    tblusedaccessory.date,\n" +
             "    tblmember.name,\n" +
             "    tblcar.name,\n" +
             "    tblaccessory.name,\n" +
             "    tblusedaccessory.price,\n" +
+            "    tblusedaccessory.id,\n" +
             "    tblusedaccessory.quantity;", nativeQuery = true)
     List<ResultSetQuery> getBillOfUsedAccessory(@Param("id") int id,
                                     @Param("startDay") String startDay,

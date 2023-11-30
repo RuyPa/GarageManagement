@@ -1,10 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Export bill</title>
+    <!-- Include Bootstrap 4 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
 </head>
-<body>
+<body class="container">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="mt-4">Export Bill Detail</h1>
+            <p th:text="'Id bill: ' + ${exportBill.getId()}"></p>
+            <p th:text="'Export Date: ' + ${exportBill.getDate()}"></p>
+            <p th:text="'Employee exported: ' + ${exportBill.getEmployee().getName()}"></p>
+            <p th:text="'Pay by: ' + ${exportBill.getPayBy()}"></p>
+            <p th:text="'Sale off: ' + ${exportBill.getSaleOff()}"></p>
+            <p th:text="'Payer: ' + ${exportBill.getClient().getName()}"></p>
 
+            <table class="table table-striped mt-4">
+                <thead>
+                <tr>
+                    <!-- Thay đổi các tiêu đề cột -->
+                    <th>Date</th>
+                    <th>Car Owner</th>
+                    <th>Car Name</th>
+                    <th>Access Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Thay đổi biến từ "samples" sang "accessories" -->
+                <!-- Thêm một cột mới cho tổng tiền (total) -->
+                <th:block th:each="fixedCar : ${exportBill.getFixedCars()}">
+                    <!-- Sử dụng th:block để tạo phạm vi lặp mới và khai báo biến -->
+                    <tr>
+                        <td th:text="${fixedCar.getUsedAccessories().get(0).getDate()}"></td>
+                        <td th:text="${fixedCar.getCar().getClient().getName()}"></td>
+                        <td th:text="${fixedCar.getCar().getName()}"></td>
+                        <td th:text="${fixedCar.getUsedAccessories().get(0).getAccessory().getName()}"></td>
+                        <td th:text="${fixedCar.getUsedAccessories().get(0).getPrice()}"></td>
+                        <td th:text="${fixedCar.getUsedAccessories().get(0).getQuantity()}"></td>
+                        <td th:text="${fixedCar.getUsedAccessories().get(0).getPrice() * fixedCar.getUsedAccessories().get(0).getQuantity()}"></td>
+                    </tr>
+                </th:block>
+
+                <!-- Hàng cuối cùng tính tổng chi phí (total cost) -->
+                <tr>
+                    <td colspan="5"></td>
+                    <td><strong>Total Cost</strong></td>
+                    <td th:text="${total}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h1 class="mt-4">Import Bill Detail</h1>
+            <p th:text="'Id bill: ' + ${importBill.getId()}" class="mb-2"></p>
+            <p th:text="'Export Date: ' + ${importBill.getDate()}" class="mb-2"></p>
+            <p th:text="'Employee imported: ' + ${importBill.getEmployee().getName()}" class="mb-2"></p>
+            <p th:text="'Discount: ' + ${importBill.getDiscount()}" class="mb-2"></p>
+            <p th:text="'Distributor: ' + ${importBill.getDistributor().getName()}" class="mb-2"></p>
+            <p th:text="'Address: ' + ${importBill.getDistributor().getAdd()}" class="mb-4"></p>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Access Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="importedAccessory : ${importBill.getImportedAccessories()}">
+                    <tr>
+                        <td th:text="${importedAccessory.getDate()}"></td>
+                        <td th:text="${importedAccessory.getAccessory().getName()}"></td>
+                        <td th:text="${importedAccessory.getPrice()}"></td>
+                        <td th:text="${importedAccessory.getQuantity()}"></td>
+                        <td th:text="${importedAccessory.getPrice() * importedAccessory.getQuantity()}"></td>
+                    </tr>
+                </th:block>
+
+                <tr>
+                    <td colspan="3"></td>
+                    <td><strong>Total Cost</strong></td>
+                    <td th:text="${totalImport}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- Include jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
