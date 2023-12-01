@@ -8,10 +8,11 @@ import com.example.gara.service.ImportBillService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -27,18 +28,23 @@ public class ImportController {
 
 //    TODO: view
     @GetMapping("/searchDitributorView")
-    public String searchDistributorView(){
+    public String searchDistributorView(HttpSession httpSession){
+        List<ImportedAccessory> importedAccessories = new ArrayList<>();
+        httpSession.setAttribute("importedAccessories", importedAccessories);
+        httpSession.setAttribute("stt", 0);
         return "SearchDistributorView";
     }
 
     @GetMapping("/searchAccessoryToImportView/{id}")
     public String importAccessoryView(@PathVariable("id")int id,
                                       HttpSession httpSession){
+        if(!ObjectUtils.isEmpty(httpSession.getAttribute("distributor")) ){
+            httpSession.setAttribute("stt", 1);
+        }
         Distributor distributor = distributorService.getDistributorById(id);
         httpSession.setAttribute("distributor", distributor);
 
-        List<ImportedAccessory> importedAccessories = new ArrayList<>();
-        httpSession.setAttribute("importedAccessories", importedAccessories);
+
 
         return "SearchAccessoryToImportView";
     }
@@ -59,10 +65,11 @@ public class ImportController {
 
         List<ImportedAccessory> importedAccessories = (List<ImportedAccessory>)httpSession.getAttribute("importedAccessories");
         Distributor distributor = (Distributor) httpSession.getAttribute("distributor");
-
+        Member employee = (Member) httpSession.getAttribute("employee");
 
         model.addAttribute("importedAccessories", importedAccessories);
         model.addAttribute("distributor", distributor);
+        model.addAttribute("employee", employee);
 
         int totalImport = 0;
         for(ImportedAccessory importedAccessory : importedAccessories){
@@ -74,12 +81,60 @@ public class ImportController {
         return "CreateBillView";
     }
 
+    @GetMapping("/deleteImportAccessory/{name}")
+    public String deleteCreateBillView(@PathVariable("name")String accessName,
+                                       HttpSession httpSession){
+        List<ImportedAccessory> importedAccessories = (List<ImportedAccessory>)httpSession.getAttribute("importedAccessories");
+        for (ImportedAccessory importedAccessory : importedAccessories){
+            if(importedAccessory.getAccessory().getName().equals(accessName)){
+                importedAccessories.remove(importedAccessory);
+                break;
+            }
+        }
+        httpSession.setAttribute("importedAccessories", importedAccessories);
+        return "redirect:/createBillView";
+    }
+
+    @GetMapping("/updateImportAccessoryView/{id}")
+    public String updateCreateBillView(@PathVariable("id")String accessName,
+                                       HttpSession httpSession,
+                                       Model model){
+        Accessory accessory = new Accessory();
+        List<ImportedAccessory> importedAccessories = (List<ImportedAccessory>)httpSession.getAttribute("importedAccessories");
+        for(ImportedAccessory importedAccessory : importedAccessories){
+            if(importedAccessory.getAccessory().getName().equals(accessName)){
+                accessory = importedAccessory.getAccessory();
+            }
+        }
+        model.addAttribute("accessory", accessory);
+
+
+//        List<ImportedAccessory> importedAccessories = (List<ImportedAccessory>)httpSession.getAttribute("importedAccessories");
+//        for (ImportedAccessory importedAccessory : importedAccessories){
+//            if(importedAccessory.getAccessory().getName().equals(accessName)){
+//                importedAccessories.remove(importedAccessory);
+//                break;
+//            }
+//        }
+//        httpSession.setAttribute("importedAccessories", importedAccessories);
+        return "UpdateInImportView";
+    }
+
+    @GetMapping("/addDistributorView")
+    public String addDistributorView(Model model){
+        Member member = new Member();
+        model.addAttribute("member", member);
+        return "AddDistributorView";
+    }
+
 //    TODO: action
     @GetMapping("/searchDistributor")
     public String searchDistributor(@RequestParam("key")String key,
-                                    Model model){
+                                    Model model,
+                                    HttpSession httpSession){
         List<Distributor> distributorList = distributorService.searchDistributorByKey(key);
         model.addAttribute("distributors", distributorList);
+        httpSession.setAttribute("distributorKey", key);
         return "SearchDistributorView";
     }
 
@@ -133,14 +188,50 @@ public class ImportController {
         importBill.setImportedAccessories(importedAccessories);
         importBill.setId(new Random().nextInt(100000000));
         importBill.setDiscount(0);
-        Employee employee = new Employee();
-        employee.setId(1);
-        importBill.setEmployee(employee);
+//        Employee employee = new Employee();
+//        employee.setId(1);
+        Member employee = (Member) httpSession.getAttribute("employee");
+        Employee employee1 = new Employee();
+        employee1.setId(employee.getId());
+        employee1.setName(employee.getName());
+        employee1.setDob(employee.getDob());
+        employee1.setEmail(employee.getEmail());
+        employee1.setPhonenumber(employee.getPhonenumber());
+        employee1.setAddress(employee.getAddress());
+        employee1.setUsername(employee.getUsername());
+        employee1.setPassword(employee.getPassword());
+
+        importBill.setEmployee(employee1);
         Date date = new Date();
         importBill.setDate(date);
 
         importBillService.saveImportBill(importBill);
 
         return "HomeManagerView";
+    }
+
+    @GetMapping("/updateImportAccessory/{id}")
+    public String updateImportAccessoryy(HttpSession httpSession,
+                                        @PathVariable("id") int id,
+                                        @RequestParam("quantity")String quantity){
+        List<ImportedAccessory> importedAccessories = (List<ImportedAccessory>)httpSession.getAttribute("importedAccessories");
+        for(ImportedAccessory importedAccessory : importedAccessories){
+            if(importedAccessory.getAccessory().getId() == id){
+                importedAccessory.setQuantity(Integer.parseInt(quantity));
+            }
+        }
+        httpSession.setAttribute("importedAccessories", importedAccessories);
+        return "redirect:/createBillView";
+    }
+
+    @Transactional
+    @PostMapping("/addDistributor")
+    public String addDistributor(@ModelAttribute("member") Member member,
+                                 HttpSession httpSession){
+
+        String key = (String) httpSession.getAttribute("distributorKey");
+        distributorService.addDistributor(member);
+
+        return "redirect:/searchDistributor?key=" + key;
     }
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -19,6 +20,7 @@ public class Member {
     private String username;
     private String password;
     private String name;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dob;
     private String email;
     private String phonenumber;

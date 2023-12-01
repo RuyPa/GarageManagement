@@ -1,6 +1,7 @@
 package com.example.gara.service.impl;
 
 import com.example.gara.model.Distributor;
+import com.example.gara.model.Member;
 import com.example.gara.repository.DistributorRepsitory;
 import com.example.gara.repository.ResultSetQuery;
 import com.example.gara.service.DistributorService;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -44,5 +46,14 @@ public class DistributorServiceImpl implements DistributorService {
         distributor.setEmail(resultSetQuery.getEmail());
         distributor.setName(resultSetQuery.getName());
         return distributor;
+    }
+
+    @Override
+    public void addDistributor(Member member) {
+        member.setUsername("");
+        member.setPassword("");
+        member.setId(new Random().nextInt(100000000));
+        distributorRepsitory.insertMember(member);
+        distributorRepsitory.insertDistributor(member);
     }
 }

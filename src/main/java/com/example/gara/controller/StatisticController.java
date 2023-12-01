@@ -33,7 +33,15 @@ public class StatisticController {
                             Model model){
 
         List<AccessoryStat> accessoryStats = accessoryStatService.statisticAccessory(starTime, endTime);
+
+        int total = 0;
+
+        for(AccessoryStat accessoryStat : accessoryStats){
+            total += accessoryStat.getQuantity() * accessoryStat.getPrice();
+        }
+
         model.addAttribute("accessoryStats", accessoryStats);
+        model.addAttribute("total", total);
 
         HttpSession.setAttribute("startTime", starTime);
         HttpSession.setAttribute("endTime", endTime);
@@ -51,7 +59,13 @@ public class StatisticController {
 
         List<ExportBill> exportBills = exportBillService.getBillOfUsedAccessory(id, starTime, endTime);
 
+        int total = 0;
+        for(ExportBill exportBill : exportBills){
+            total += exportBill.getFixedCars().get(0).getUsedAccessories().get(0).getPrice() * exportBill.getFixedCars().get(0).getUsedAccessories().get(0).getQuantity();
+        }
+
         model.addAttribute("exportBills", exportBills);
+        model.addAttribute("total", total);
 
         return "UsedDetailView";
     }

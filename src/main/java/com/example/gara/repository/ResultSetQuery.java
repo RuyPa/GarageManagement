@@ -26,4 +26,7 @@ public interface ResultSetQuery {
     String getEmail();
     String getPhonenumber();
     String getAddress();
+
+    String getUsername();
+    String getPassword();
 }

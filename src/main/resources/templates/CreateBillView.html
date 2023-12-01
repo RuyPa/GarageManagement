@@ -11,7 +11,7 @@
       <h1 class="mt-4">Create Import Bill</h1>
 <!--      <p th:text="'Id bill: ' + ${importBill.getId()}" class="mb-2"></p>-->
 <!--      <p th:text="'Export Date: ' + ${importBill.getDate()}" class="mb-2"></p>-->
-<!--      <p th:text="'Employee imported: ' + ${importBill.getEmployee().getName()}" class="mb-2"></p>-->
+      <p th:text="'Employee imported: ' + ${employee.getName()}" class="mb-2"></p>
 <!--      <p th:text="'Discount: ' + ${importBill.getDiscount()}" class="mb-2"></p>-->
       <p th:text="'Distributor: ' + ${distributor.getName()}" class="mb-2"></p>
       <p th:text="'Address: ' + ${distributor.getAddress()}" class="mb-4"></p>
@@ -34,6 +34,12 @@
             <td th:text="${importedAccessory.getPrice()}"></td>
             <td th:text="${importedAccessory.getQuantity()}"></td>
             <td th:text="${importedAccessory.getPrice() * importedAccessory.getQuantity()}"></td>
+            <td>
+              <!-- Sửa đường dẫn của nút Edit -->
+              <a th:href="@{/updateImportAccessoryView/{name}(name=${importedAccessory.getAccessory().getName()})}" class="btn btn-primary btn-block">Update</a>
+              <!-- Sửa đường dẫn của nút Delete -->
+              <a th:href="@{/deleteImportAccessory/{name}(name=${importedAccessory.getAccessory().getName()})}" class="btn btn-primary btn-block">Delete</a>
+            </td>
           </tr>
         </th:block>
         <tr>
@@ -41,6 +47,12 @@
           <td><strong>Total Cost</strong></td>
           <td th:text="${totalImport}"></td>
         </tr>
+        <tr>
+          <td colspan="2">
+            <a th:href="@{/searchAccessoryToImportView/{id}(id=${session.distributor.id})}"><button>Add</button></a>
+          </td>
+        </tr>
+
         </tbody>
       </table>
     </div>

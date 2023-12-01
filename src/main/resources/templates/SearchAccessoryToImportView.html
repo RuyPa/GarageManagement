@@ -108,10 +108,22 @@
   </tbody>
 </table>
 
+<div class="mt-4">
+  <a th:href="@{/addAccessoryView}" class="btn btn-success btn-lg btn-block" th:if="${session.stt == 0}">
+    Add New Accessory
+  </a>
+</div>
+
 <!-- Thêm nút "Create Bill" -->
 <div class="mt-4">
-  <a th:href="@{/createBillView}" class="btn btn-success btn-lg btn-block">Create Bill</a>
+  <a th:href="@{/createBillView}" class="btn btn-success btn-lg btn-block" th:if="${session.stt == 0}">
+    Create Bill
+  </a>
+  <a th:href="@{/createBillView}" class="btn btn-success btn-lg btn-block" th:if="${session.stt != 0}">
+    View Bill
+  </a>
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
