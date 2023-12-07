@@ -32,6 +32,8 @@ public class ImportController {
         List<ImportedAccessory> importedAccessories = new ArrayList<>();
         httpSession.setAttribute("importedAccessories", importedAccessories);
         httpSession.setAttribute("stt", 0);
+        ImportBill importBill = new ImportBill();
+        httpSession.setAttribute("importBill", importBill);
         return "SearchDistributorView";
     }
 
@@ -81,6 +83,39 @@ public class ImportController {
         return "CreateBillView";
     }
 
+    @GetMapping("/minus/{name}")
+    public String minus(@PathVariable("name")String accessName,
+                       HttpSession httpSession){
+        List<ImportedAccessory> importedAccessories = (List<ImportedAccessory>)httpSession.getAttribute("importedAccessories");
+        for (ImportedAccessory importedAccessory : importedAccessories){
+            if(importedAccessory.getAccessory().getName().equals(accessName)){
+
+                if(importedAccessory.getQuantity() == 1){
+                    importedAccessories.remove(importedAccessory);
+                } else {
+                    importedAccessory.setQuantity(importedAccessory.getQuantity() - 1);
+                }
+                break;
+            }
+        }
+        httpSession.setAttribute("importedAccessories", importedAccessories);
+        return "redirect:/moveFromChooseToBillDetail";
+    }
+
+    @GetMapping("/plus/{name}")
+    public String plus(@PathVariable("name")String accessName,
+                       HttpSession httpSession){
+        List<ImportedAccessory> importedAccessories = (List<ImportedAccessory>)httpSession.getAttribute("importedAccessories");
+        for (ImportedAccessory importedAccessory : importedAccessories){
+            if(importedAccessory.getAccessory().getName().equals(accessName)){
+                importedAccessory.setQuantity(importedAccessory.getQuantity() + 1);
+                break;
+            }
+        }
+        httpSession.setAttribute("importedAccessories", importedAccessories);
+        return "redirect:/moveFromChooseToBillDetail";
+    }
+
     @GetMapping("/deleteImportAccessory/{name}")
     public String deleteCreateBillView(@PathVariable("name")String accessName,
                                        HttpSession httpSession){
@@ -92,7 +127,8 @@ public class ImportController {
             }
         }
         httpSession.setAttribute("importedAccessories", importedAccessories);
-        return "redirect:/createBillView";
+//        return "redirect:/createBillView";
+        return "redirect:/moveFromChooseToBillDetail";
     }
 
     @GetMapping("/updateImportAccessoryView/{id}")
@@ -127,6 +163,40 @@ public class ImportController {
         return "AddDistributorView";
     }
 
+
+
+//    TODO: move from choose distributor view to bill detail view
+
+    @GetMapping("/saveChoosenDistributor/{id}")
+    public String saveChoosenDistributor(@PathVariable("id")int id,
+                                         HttpSession httpSession){
+        Distributor distributor = distributorService.getDistributorById(id);
+        httpSession.setAttribute("distributor", distributor);
+        return "redirect:/moveFromChooseToBillDetail";
+    }
+
+
+    @GetMapping("/moveFromChooseToBillDetail")
+    public String moveFromChooseToBillDetail(HttpSession httpSession,
+                                             Model model){
+        List<ImportedAccessory> importedAccessories = (List<ImportedAccessory>)httpSession.getAttribute("importedAccessories");
+        Distributor distributor = (Distributor) httpSession.getAttribute("distributor");
+        Member employee = (Member) httpSession.getAttribute("employee");
+
+        model.addAttribute("importedAccessories", importedAccessories);
+        model.addAttribute("distributor", distributor);
+        model.addAttribute("employee", employee);
+
+        int totalImport = 0;
+        for(ImportedAccessory importedAccessory : importedAccessories){
+            totalImport +=  importedAccessory.getQuantity() * importedAccessory.getPrice();
+        }
+
+        model.addAttribute("totalImport", totalImport);
+        return "NewBillDetailView";
+    }
+
+
 //    TODO: action
     @GetMapping("/searchDistributor")
     public String searchDistributor(@RequestParam("key")String key,
@@ -147,6 +217,55 @@ public class ImportController {
         httpSession.setAttribute("key", key);
 
         return "SearchAccessoryToImportView";
+    }
+
+    @GetMapping("/searchAccessoryToImportV2")
+    public String searchAccessoryToImportV2(@RequestParam("key")String key,
+                                          HttpSession httpSession){
+        List<Accessory> accessories = accessoryService.searchAccessoryByKey(key);
+        httpSession.setAttribute("accessories", accessories);
+        httpSession.setAttribute("key", key);
+        return "redirect:/moveFromChooseToBillDetail";
+    }
+
+    @GetMapping("/import/{id}")
+    public String importAccessory(@PathVariable("id")int id,
+                                  @RequestParam("quantity")String quantity,
+                                  HttpSession httpSession) {
+
+        List<ImportedAccessory> importedAccessories = (List<ImportedAccessory>) httpSession.getAttribute("importedAccessories");
+        Accessory currentAccessory = accessoryService.getAccessoryById(id);
+
+        int flag = 0;
+        if(!ObjectUtils.isEmpty(importedAccessories)){
+            for(ImportedAccessory importedAccessory : importedAccessories){
+                if(importedAccessory.getAccessory().getId() == id){
+                    importedAccessory.setQuantity(importedAccessory.getQuantity() + Integer.parseInt(quantity));
+                    flag = 1;
+                    break;
+                }
+            }
+        }
+        if(flag == 0){
+            ImportedAccessory importedAccessory = new ImportedAccessory();
+            importedAccessory.setAccessory(currentAccessory);
+
+            // Convert LocalDate to Date
+            Date currentDateAsDate = new Date();
+            importedAccessory.setDate(currentDateAsDate);
+            importedAccessory.setQuantity(Integer.parseInt(quantity));
+            importedAccessory.setPrice(currentAccessory.getPrice());
+            importedAccessory.setId(new Random().nextInt(100000000));
+
+            importedAccessories.add(importedAccessory);
+        }
+
+
+//        System.out.println(importedAccessories.size());
+
+        httpSession.setAttribute("importedAccessories", importedAccessories);
+
+        return "redirect:/moveFromChooseToBillDetail";
     }
 
     @GetMapping("/importAccessory")
@@ -179,7 +298,7 @@ public class ImportController {
     public String saveImportBill(HttpSession httpSession){
 
 
-        ImportBill importBill = new ImportBill();
+        ImportBill importBill = (ImportBill) httpSession.getAttribute("importBill");
 
         List<ImportedAccessory> importedAccessories = (List<ImportedAccessory>)httpSession.getAttribute("importedAccessories");
         Distributor distributor = (Distributor) httpSession.getAttribute("distributor");

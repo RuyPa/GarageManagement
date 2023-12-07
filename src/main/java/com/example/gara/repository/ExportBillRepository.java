@@ -8,6 +8,23 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
+//SELECT
+//        tblusedaccessory.date,
+//        tblmember.name AS 'clientname',
+//        tblcar.name AS 'carname',
+//        tblaccessory.name AS 'accessname',
+//        tblusedaccessory.price,
+//        tblusedaccessory.quantity
+//        FROM
+//        tblusedaccessory, tblaccessory, tblfixedCar, tblcar, tblmember
+//        WHERE
+//        tblaccessory.id = 2
+//        AND tblusedaccessory.accessory_id = tblaccessory.id
+//        AND tblusedaccessory.date BETWEEN '2022-10-01' AND '2022-11-01'
+//        AND tblusedaccessory.fixedcar_id = tblfixedCar.id
+//        AND tblfixedCar.car_id = tblcar.id
+//        AND tblcar.client_id = tblmember.id;
 @Repository
 public interface ExportBillRepository extends JpaRepository<ExportBill, Integer> {
     @Query(value = "SELECT \n" +
@@ -25,8 +42,8 @@ public interface ExportBillRepository extends JpaRepository<ExportBill, Integer>
             "    LEFT JOIN tblcar ON tblfixedCar.car_id = tblcar.id\n" +
             "    LEFT JOIN tblmember ON tblcar.client_id = tblmember.id\n" +
             "WHERE \n" +
-            "    tblaccessory.id = 2\n" +
-            "    AND tblusedaccessory.date BETWEEN '2022-10-01' AND '2022-11-01'\n" +
+            "    tblaccessory.id = :id\n" +
+            "    AND tblusedaccessory.date BETWEEN :startDay AND :endDay \n" +
             "GROUP BY \n" +
             "    tblusedaccessory.date,\n" +
             "    tblmember.name,\n" +
