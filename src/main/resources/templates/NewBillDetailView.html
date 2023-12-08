@@ -42,7 +42,7 @@
       <form th:action="@{/import/{id}(id=${accessory.id})}" method="get">
 
           <div class="form-group">
-            <input type="text" class="form-control" id="quantity" name="quantity" th:value="${quantity}" />
+            <input type="text" name="quantity" th:value="${quantity}" class="form-control" id="quantity" placeholder="Enter Quantity" pattern="[1-9][0-9]*" title="Vui lòng nhập số nguyên dương lớn hơn 0" required />
           </div>
         <td>
           <button type="submit" class="btn btn-primary btn-block">Import</button>

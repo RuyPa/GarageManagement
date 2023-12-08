@@ -6,6 +6,7 @@ import com.example.gara.repository.ResultSetQuery;
 import com.example.gara.service.AccessoryStatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,9 +27,18 @@ public class AccessoryStatServiceImpl implements AccessoryStatService {
             AccessoryStat accessoryStat = new AccessoryStat();
 
             accessoryStat.setId(resultSetQuery.getId());
-            accessoryStat.setQuantity(resultSetQuery.getQuantity());
+
             accessoryStat.setName(resultSetQuery.getName());
-            accessoryStat.setPrice(resultSetQuery.getPrice());
+
+            if(ObjectUtils.isEmpty(resultSetQuery.getQuantity()) || resultSetQuery.getQuantity() == 0){
+                accessoryStat.setQuantity(0);
+                accessoryStat.setTotal(0);
+            } else {
+                accessoryStat.setQuantity(resultSetQuery.getQuantity());
+                accessoryStat.setTotal(resultSetQuery.getTotal());
+            }
+
+
 
             accessoryStats.add(accessoryStat);
         }

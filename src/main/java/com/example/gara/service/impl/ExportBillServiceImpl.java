@@ -44,6 +44,7 @@ public class ExportBillServiceImpl implements ExportBillService {
             usedAccessory.setPrice(resultSetQuery.getPrice());
             usedAccessory.setQuantity(resultSetQuery.getQuantity());
             usedAccessory.setDate(resultSetQuery.getDate());
+            usedAccessory.setTotal(resultSetQuery.getTotal());
             accessories.add(usedAccessory);
             fixedCar.setUsedAccessories(accessories);
             fixedCars.add(fixedCar);
@@ -96,6 +97,7 @@ public class ExportBillServiceImpl implements ExportBillService {
 
                 usedAccessory.setQuantity(resultSetQuery.getQuantity());
                 usedAccessory.setPrice(resultSetQuery.getPrice());
+                usedAccessory.setTotal(resultSetQuery.getTotal());
                 usedAccessory.setDate(resultSetQuery.getDate());
 
 

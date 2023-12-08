@@ -29,4 +29,6 @@ public interface ResultSetQuery {
 
     String getUsername();
     String getPassword();
+
+    Integer getTotal();
 }

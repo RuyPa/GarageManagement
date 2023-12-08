@@ -10,20 +10,31 @@ import java.util.List;
 
 @Repository
 public interface AcceessoryStatRepository extends JpaRepository<Accessory, Integer> {
-    @Query(value = "SELECT "
-            + "tblaccessory.id, "
-            + "tblaccessory.name, "
-            + "SUM(tblusedaccessory.quantity) as 'quantity', "
-            + "tblusedaccessory.price "
-            + "FROM "
-            + "tblaccessory "
-            + "INNER JOIN tblusedaccessory ON tblaccessory.id = tblusedaccessory.accessory_id "
-            + "WHERE "
-            + "tblusedaccessory.date BETWEEN :startDay AND :endDay "
-            + "GROUP BY "
-            + "tblaccessory.id, "
-            + "tblaccessory.name, "
-            + "tblusedaccessory.price", nativeQuery = true)
+    @Query(value = "SELECT\n" +
+            "    tblaccessory.id,\n" +
+            "    tblaccessory.name,\n" +
+            "    (\n" +
+            "        SELECT\n" +
+            "            SUM(tblusedaccessory.quantity)\n" +
+            "        FROM\n" +
+            "            tblusedaccessory\n" +
+            "        WHERE\n" +
+            "            tblusedaccessory.accessory_id = tblaccessory.id\n" +
+            "            AND tblusedaccessory.date BETWEEN :startDay AND :endDay\n" +
+            "        GROUP BY tblusedaccessory.accessory_id\n" +
+            "    ) as quantity,\n" +
+            "    (\n" +
+            "        SELECT\n" +
+            "            SUM(tblusedaccessory.quantity * tblusedaccessory.price)\n" +
+            "        FROM\n" +
+            "            tblusedaccessory\n" +
+            "        WHERE\n" +
+            "            tblusedaccessory.accessory_id = tblaccessory.id\n" +
+            "            AND tblusedaccessory.date BETWEEN :startDay AND :endDay\n" +
+            "        GROUP BY tblusedaccessory.accessory_id\n" +
+            "    ) as total\n" +
+            "FROM tblaccessory\n" +
+            "ORDER BY total DESC, quantity DESC;", nativeQuery = true)
     List<ResultSetQuery> statisticAccessory(@Param("startDay") String startDay,
                                    @Param("endDay")String endDay);
 

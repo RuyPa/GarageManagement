@@ -8,6 +8,7 @@ import lombok.Setter;
 public class AccessoryStat extends Accessory{
     private int quantity;
     private int revenue;
+    private int total;
 
     public AccessoryStat(int quantity, int revenue) {
         this.quantity = quantity;

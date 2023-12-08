@@ -37,7 +37,7 @@ public class StatisticController {
         int total = 0;
 
         for(AccessoryStat accessoryStat : accessoryStats){
-            total += accessoryStat.getQuantity() * accessoryStat.getPrice();
+            total += accessoryStat.getTotal();
         }
 
         model.addAttribute("accessoryStats", accessoryStats);
@@ -81,17 +81,17 @@ public class StatisticController {
         }
 
 
-        ImportBill importBill = importBillService.getImportBill(id);
-        int totalImport = 0;
-        for (ImportedAccessory importedAccessory : importBill.getImportedAccessories()){
-            totalImport += importedAccessory.getQuantity() * importedAccessory.getPrice();
-        }
+//        ImportBill importBill = importBillService.getImportBill(id);
+//        int totalImport = 0;
+//        for (ImportedAccessory importedAccessory : importBill.getImportedAccessories()){
+//            totalImport += importedAccessory.getQuantity() * importedAccessory.getPrice();
+//        }
 
         model.addAttribute("exportBill", exportBill);
         model.addAttribute("total", total);
 
-        model.addAttribute("importBill", importBill);
-        model.addAttribute("totalImport", totalImport);
+//        model.addAttribute("importBill", importBill);
+//        model.addAttribute("totalImport", totalImport);
         return "BillDetailView";
     }
 

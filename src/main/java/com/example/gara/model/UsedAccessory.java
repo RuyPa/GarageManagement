@@ -13,6 +13,7 @@ public class UsedAccessory {
     private int quantity;
     private int price;
     private Accessory accessory;
+    private Integer total;
 
     public UsedAccessory() {
     }
@@ -23,5 +24,6 @@ public class UsedAccessory {
         this.quantity = quantity;
         this.price = price;
         this.accessory = accessory;
+        this.total = price * quantity;
     }
 }

@@ -55,9 +55,10 @@ public class ImportBillServiceImpl implements ImportBillService {
     @Transactional
     @Override
     public void saveImportBill(ImportBill importBill) {
+        importBillRepository.createImportBill(importBill);
         for(ImportedAccessory importedAccessory : importBill.getImportedAccessories()){
             importBillRepository.insertImportedAccessory(importedAccessory, importBill.getId());
         }
-        importBillRepository.createImportBill(importBill);
+
     }
 }

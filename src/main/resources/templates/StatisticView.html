@@ -27,7 +27,6 @@
         <th>ID</th>
         <th>Name</th>
         <th>Quantity</th>
-        <th>Price</th>
         <th>Total</th>
     </tr>
     </thead>
@@ -39,19 +38,17 @@
         <td th:text="${accessoryStat.name}"></td>
         <!-- Thêm các trường mới: quantity và price -->
         <td th:text="${accessoryStat.quantity}"></td>
-        <td th:text="${accessoryStat.price}"></td>
-        <td th:text="${accessoryStat.price * accessoryStat.quantity}"></td>
-        <td>
+        <td th:text="${accessoryStat.total}"></td>
+        <td th:if="${accessoryStat.quantity > 0}">
             <!-- Sửa đường dẫn của nút Edit -->
             <a th:href="@{/usedDetailView/{id}(id=${accessoryStat.id})}" class="btn btn-primary btn-block">Used Detail</a>
             <!-- Sửa đường dẫn của nút Delete -->
-<!--            <a th:href="@{/deleteAccessoryView/{id}(id=${accessory.id})}" class="btn btn-primary btn-block">Delete</a>-->
+            <!--            <a th:href="@{/deleteAccessoryView/{id}(id=${accessory.id})}" class="btn btn-primary btn-block">Delete</a>-->
         </td>
     </tr>
     <tr>
         <td></td>
         <td>Total</td>
-        <td></td>
         <td></td>
         <td><span th:text="${total}"></span></td>
 

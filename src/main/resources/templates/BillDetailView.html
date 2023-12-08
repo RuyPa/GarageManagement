@@ -41,7 +41,7 @@
                         <td th:text="${fixedCar.getUsedAccessories().get(0).getAccessory().getName()}"></td>
                         <td th:text="${fixedCar.getUsedAccessories().get(0).getPrice()}"></td>
                         <td th:text="${fixedCar.getUsedAccessories().get(0).getQuantity()}"></td>
-                        <td th:text="${fixedCar.getUsedAccessories().get(0).getPrice() * fixedCar.getUsedAccessories().get(0).getQuantity()}"></td>
+                        <td th:text="${fixedCar.getUsedAccessories().get(0).getTotal()}"></td>
                     </tr>
                 </th:block>
 
@@ -56,46 +56,46 @@
         </div>
     </div>
 
-    <div class="card">
-        <div class="card-body">
-            <h1 class="mt-4">Import Bill Detail</h1>
-            <p th:text="'Id bill: ' + ${importBill.getId()}" class="mb-2"></p>
-            <p th:text="'Export Date: ' + ${importBill.getDate()}" class="mb-2"></p>
-            <p th:text="'Employee imported: ' + ${importBill.getEmployee().getName()}" class="mb-2"></p>
-            <p th:text="'Discount: ' + ${importBill.getDiscount()}" class="mb-2"></p>
-            <p th:text="'Distributor: ' + ${importBill.getDistributor().getName()}" class="mb-2"></p>
-            <p th:text="'Address: ' + ${importBill.getDistributor().getAddress()}" class="mb-4"></p>
+<!--    <div class="card">-->
+<!--        <div class="card-body">-->
+<!--            <h1 class="mt-4">Import Bill Detail</h1>-->
+<!--            <p th:text="'Id bill: ' + ${importBill.getId()}" class="mb-2"></p>-->
+<!--            <p th:text="'Export Date: ' + ${importBill.getDate()}" class="mb-2"></p>-->
+<!--            <p th:text="'Employee imported: ' + ${importBill.getEmployee().getName()}" class="mb-2"></p>-->
+<!--            <p th:text="'Discount: ' + ${importBill.getDiscount()}" class="mb-2"></p>-->
+<!--            <p th:text="'Distributor: ' + ${importBill.getDistributor().getName()}" class="mb-2"></p>-->
+<!--            <p th:text="'Address: ' + ${importBill.getDistributor().getAddress()}" class="mb-4"></p>-->
 
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Access Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                </tr>
-                </thead>
-                <tbody>
-                <th:block th:each="importedAccessory : ${importBill.getImportedAccessories()}">
-                    <tr>
-                        <td th:text="${importedAccessory.getDate()}"></td>
-                        <td th:text="${importedAccessory.getAccessory().getName()}"></td>
-                        <td th:text="${importedAccessory.getPrice()}"></td>
-                        <td th:text="${importedAccessory.getQuantity()}"></td>
-                        <td th:text="${importedAccessory.getPrice() * importedAccessory.getQuantity()}"></td>
-                    </tr>
-                </th:block>
+<!--            <table class="table table-striped">-->
+<!--                <thead>-->
+<!--                <tr>-->
+<!--                    <th>Date</th>-->
+<!--                    <th>Access Name</th>-->
+<!--                    <th>Price</th>-->
+<!--                    <th>Quantity</th>-->
+<!--                    <th>Total</th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                <th:block th:each="importedAccessory : ${importBill.getImportedAccessories()}">-->
+<!--                    <tr>-->
+<!--                        <td th:text="${importedAccessory.getDate()}"></td>-->
+<!--                        <td th:text="${importedAccessory.getAccessory().getName()}"></td>-->
+<!--                        <td th:text="${importedAccessory.getPrice()}"></td>-->
+<!--                        <td th:text="${importedAccessory.getQuantity()}"></td>-->
+<!--                        <td th:text="${importedAccessory.getPrice() * importedAccessory.getQuantity()}"></td>-->
+<!--                    </tr>-->
+<!--                </th:block>-->
 
-                <tr>
-                    <td colspan="3"></td>
-                    <td><strong>Total Cost</strong></td>
-                    <td th:text="${totalImport}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+<!--                <tr>-->
+<!--                    <td colspan="3"></td>-->
+<!--                    <td><strong>Total Cost</strong></td>-->
+<!--                    <td th:text="${totalImport}"></td>-->
+<!--                </tr>-->
+<!--                </tbody>-->
+<!--            </table>-->
+<!--        </div>-->
+<!--    </div>-->
 
 
     <!-- Include jQuery and Bootstrap JS -->

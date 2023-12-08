@@ -44,10 +44,12 @@
         <td th:text="${exportBill.getFixedCars().get(0).getUsedAccessories().get(0).getAccessory().getName()}"></td>
         <td th:text="${exportBill.getFixedCars().get(0).getUsedAccessories().get(0).getPrice()}"></td>
         <td th:text="${exportBill.getFixedCars().get(0).getUsedAccessories().get(0).getQuantity()}"></td>
-        <td th:text="${exportBill.getFixedCars().get(0).getUsedAccessories().get(0).getQuantity() * exportBill.getFixedCars().get(0).getUsedAccessories().get(0).getPrice()}"></td>
+        <td th:text="${exportBill.getFixedCars().get(0).getUsedAccessories().get(0).getTotal()}"></td>
         <td>
             <!-- Sửa đường dẫn của nút Edit -->
-            <a th:href="@{/billDetail/{id}(id=${exportBill.getFixedCars().get(0).getUsedAccessories().get(0).getId()})}" class="btn btn-primary btn-block">Bill Detail</a>
+            <a th:href="@{/billDetail/{id}(id=${exportBill.getFixedCars().get(0).getUsedAccessories().get(0).getId()})}" class="btn btn-primary btn-block">
+                Bill Detail
+            </a>
             <!-- Sửa đường dẫn của nút Delete -->
             <!--            <a th:href="@{/deleteAccessoryView/{id}(id=${accessory.id})}" class="btn btn-primary btn-block">Delete</a>-->
         </td>
